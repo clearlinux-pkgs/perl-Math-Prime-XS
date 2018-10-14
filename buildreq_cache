@@ -1,0 +1,6 @@
+0.27
+perl(Module::Implementation)
+perl(Module::Runtime)
+perl(Params::Validate)
+perl(Try::Tiny)
+perl(boolean)

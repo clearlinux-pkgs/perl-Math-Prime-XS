@@ -4,19 +4,14 @@
 #
 Name     : perl-Math-Prime-XS
 Version  : 0.27
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/Math-Prime-XS-0.27.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/Math-Prime-XS-0.27.tar.gz
 Summary  : 'Detect and calculate prime numbers with deterministic tests'
 Group    : Development/Tools
 License  : Artistic-1.0-Perl
-Requires: perl-Math-Prime-XS-lib
-Requires: perl-Math-Prime-XS-man
-Requires: perl(Module::Implementation)
-Requires: perl(Module::Runtime)
-Requires: perl(Params::Validate)
-Requires: perl(Try::Tiny)
-Requires: perl(boolean)
+Requires: perl-Math-Prime-XS-lib = %{version}-%{release}
+BuildRequires : buildreq-cpan
 BuildRequires : perl(Module::Implementation)
 BuildRequires : perl(Module::Runtime)
 BuildRequires : perl(Params::Validate)
@@ -28,20 +23,22 @@ NAME
 Math::Prime::XS - Detect and calculate prime numbers with deterministic
 tests
 
+%package dev
+Summary: dev components for the perl-Math-Prime-XS package.
+Group: Development
+Requires: perl-Math-Prime-XS-lib = %{version}-%{release}
+Provides: perl-Math-Prime-XS-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-Math-Prime-XS package.
+
+
 %package lib
 Summary: lib components for the perl-Math-Prime-XS package.
 Group: Libraries
 
 %description lib
 lib components for the perl-Math-Prime-XS package.
-
-
-%package man
-Summary: man components for the perl-Math-Prime-XS package.
-Group: Default
-
-%description man
-man components for the perl-Math-Prime-XS package.
 
 
 %prep
@@ -70,9 +67,9 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -81,12 +78,12 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/Math/Prime/XS.pm
+/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/Math/Prime/XS.pm
+
+%files dev
+%defattr(-,root,root,-)
+/usr/share/man/man3/Math::Prime::XS.3
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/auto/Math/Prime/XS/XS.so
-
-%files man
-%defattr(-,root,root,-)
-/usr/share/man/man3/Math::Prime::XS.3
+/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/auto/Math/Prime/XS/XS.so
