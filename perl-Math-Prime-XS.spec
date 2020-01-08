@@ -4,13 +4,13 @@
 #
 Name     : perl-Math-Prime-XS
 Version  : 0.27
-Release  : 10
+Release  : 11
 URL      : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/Math-Prime-XS-0.27.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/Math-Prime-XS-0.27.tar.gz
 Summary  : 'Detect and calculate prime numbers with deterministic tests'
 Group    : Development/Tools
 License  : Artistic-1.0-Perl
-Requires: perl-Math-Prime-XS-lib = %{version}-%{release}
+Requires: perl-Math-Prime-XS-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 BuildRequires : perl(Module::Implementation)
 BuildRequires : perl(Module::Runtime)
@@ -26,29 +26,31 @@ tests
 %package dev
 Summary: dev components for the perl-Math-Prime-XS package.
 Group: Development
-Requires: perl-Math-Prime-XS-lib = %{version}-%{release}
 Provides: perl-Math-Prime-XS-devel = %{version}-%{release}
+Requires: perl-Math-Prime-XS = %{version}-%{release}
 
 %description dev
 dev components for the perl-Math-Prime-XS package.
 
 
-%package lib
-Summary: lib components for the perl-Math-Prime-XS package.
-Group: Libraries
+%package perl
+Summary: perl components for the perl-Math-Prime-XS package.
+Group: Default
+Requires: perl-Math-Prime-XS = %{version}-%{release}
 
-%description lib
-lib components for the perl-Math-Prime-XS package.
+%description perl
+perl components for the perl-Math-Prime-XS package.
 
 
 %prep
 %setup -q -n Math-Prime-XS-0.27
+cd %{_builddir}/Math-Prime-XS-0.27
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -58,7 +60,7 @@ else
 fi
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -78,12 +80,12 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/x86_64-linux-thread-multi/Math/Prime/XS.pm
 
 %files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/Math::Prime::XS.3
 
-%files lib
+%files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/x86_64-linux-thread-multi/auto/Math/Prime/XS/XS.so
+/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/Math/Prime/XS.pm
+/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/auto/Math/Prime/XS/XS.so
