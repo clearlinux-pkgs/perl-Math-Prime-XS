@@ -7,7 +7,7 @@
 #
 Name     : perl-Math-Prime-XS
 Version  : 0.27
-Release  : 24
+Release  : 25
 URL      : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/Math-Prime-XS-0.27.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/Math-Prime-XS-0.27.tar.gz
 Summary  : 'Detect and calculate prime numbers with deterministic tests'
